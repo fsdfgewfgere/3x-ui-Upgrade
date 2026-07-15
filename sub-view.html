@@ -1,1 +1,722 @@
 
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" id="htmlTag">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kaliconnect-sub info</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    :root {
+        /* متغیرهای تم برای حالت تاریک (پیش‌فرض) */
+        --bg-gradient: linear-gradient(135deg, #050b14 0%, #110c2c 50%, #0a1128 100%);
+        --glass-bg: rgba(15, 23, 42, 0.45);
+        --glass-border: rgba(100, 150, 255, 0.15);
+        --shadow-color: rgba(0, 0, 0, 0.4);
+    }
+
+    body.light-mode {
+        /* متغیرهای تم برای حالت روشن */
+        --bg-gradient: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #f3e8ff 100%);
+        --glass-bg: rgba(255, 255, 255, 0.65);
+        --glass-border: rgba(99, 102, 241, 0.3);
+        --shadow-color: rgba(99, 102, 241, 0.15);
+    }
+
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+        background: var(--bg-gradient);
+        background-attachment: fixed;
+    }
+
+    /* استایل شیشه ای بسیار شفاف و جذاب */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 8px 32px 0 var(--shadow-color);
+        transition: all 0.4s ease;
+    }
+
+    /* اورراید رنگ متن‌ها در حالت روشن برای خوانایی بیشتر */
+    body.light-mode .text-white, 
+    body.light-mode .text-slate-200, 
+    body.light-mode .text-slate-100 { color: #1e293b !important; }
+    
+    body.light-mode .text-blue-200\/70, 
+    body.light-mode .text-blue-200\/80, 
+    body.light-mode .text-slate-400 { color: #475569 !important; }
+    
+    body.light-mode .text-blue-300 { color: #4338ca !important; }
+    
+    body.light-mode .bg-slate-900\/60, 
+    body.light-mode .bg-slate-900\/50,
+    body.light-mode .bg-blue-900\/10,
+    body.light-mode .bg-purple-900\/10 { 
+        background-color: rgba(255, 255, 255, 0.6) !important; 
+        border-color: rgba(99, 102, 241, 0.2) !important; 
+    }
+    
+    body.light-mode .border-l-blue-500\/50 { border-left-color: rgba(99, 102, 241, 0.5) !important; }
+    body.light-mode .border-r-purple-500\/50 { border-right-color: rgba(139, 92, 246, 0.5) !important; }
+
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .qr-box { display: none; }
+    .qr-box.show { display: flex; }
+    #list { display: flex; flex-direction: column; gap: 12px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: rgba(100, 150, 255, 0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(100, 150, 255, 0.4); }
+</style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col items-center justify-start p-4 sm:p-6 transition-all duration-300">
+
+<div class="w-full max-w-md mx-auto space-y-6 mt-2 sm:mt-8">
+
+    <div class="flex justify-between w-full items-center">
+        <button id="themeBtn" class="glass-card w-10 h-10 rounded-full flex items-center justify-center text-blue-300 hover:text-white hover:bg-blue-600/20 transition-all duration-300 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <i class="fas fa-sun text-lg" id="themeIcon"></i>
+        </button>
+
+        <button id="langBtn" class="glass-card px-4 py-1.5 rounded-full text-xs font-bold text-blue-300 hover:text-white hover:bg-blue-600/20 transition-all duration-300 flex items-center gap-2 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <i class="fas fa-globe"></i>
+            <span id="langText">English</span>
+        </button>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 text-center shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600"></div>
+
+        <div class="w-16 h-16 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(139,92,246,0.5)] mb-4 relative overflow-hidden border border-white/10">
+            <i class="fas fa-dragon text-3xl text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] animate-pulse"></i>
+        </div>
+
+        <h1 class="text-xl font-bold text-white mb-1 tracking-wide" id="userTitle">kaliconnect-sub info</h1>
+        <p class="text-xs text-blue-200/70 mono tracking-wide" id="statusMsg" data-i18n="statusMsg">در حال دریافت اطلاعات اشتراک...</p>
+
+        <span id="statusBadge" class="inline-flex items-center gap-1.5 mt-3 px-3 py-1 text-xs font-medium bg-slate-500/10 text-slate-400 rounded-full border border-slate-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+            <span id="statusBadgeText" data-i18n="statusBadgeText">در حال بررسی</span>
+        </span>
+    </div>
+
+    <div class="glass-card rounded-2xl p-5 shadow-xl space-y-4 hidden border-l-2 border-l-blue-500/50" id="usageCard">
+        <div class="flex justify-between items-center text-sm">
+            <span class="text-blue-200/80 font-medium flex items-center gap-2">
+                <i class="fas fa-chart-pie text-blue-400 drop-shadow-[0_0_5px_rgba(96,165,250,0.5)]"></i>
+                <span data-i18n="usageLabel">حجم مصرف شده</span>
+            </span>
+            <span class="font-bold text-white" id="usageHeadline">- <span class="text-xs text-slate-400" id="usageHeadlineSub"></span></span>
+        </div>
+
+        <div class="w-full bg-slate-900/60 rounded-full h-2.5 overflow-hidden p-[2px] shadow-inner">
+            <div class="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(139,92,246,0.6)]" id="usageFill" style="width: 0%"></div>
+        </div>
+
+        <div class="mt-4 pt-3 pb-1 px-1 bg-slate-900/40 rounded-xl border border-blue-500/10 shadow-inner" id="chartContainer" style="height: 140px; display: none; transition: all 0.3s;">
+            <canvas id="usageChart"></canvas>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-2 text-xs">
+            <div class="bg-blue-900/10 p-3 rounded-xl border border-blue-500/20 hover:bg-blue-900/20 transition-colors">
+                <div class="text-blue-200/70 mb-1 flex items-center gap-1.5">
+                    <i class="fas fa-calendar-days text-indigo-400 drop-shadow-[0_0_5px_rgba(129,140,248,0.5)]"></i>
+                    <span data-i18n="renewLabel">تمدید بعدی</span>
+                </div>
+                <div class="font-semibold text-slate-100" id="renewDate">-</div>
+            </div>
+            <div class="bg-purple-900/10 p-3 rounded-xl border border-purple-500/20 hover:bg-purple-900/20 transition-colors">
+                <div class="text-purple-200/70 mb-1 flex items-center gap-1.5">
+                    <i class="fas fa-hourglass-half text-purple-400 drop-shadow-[0_0_5px_rgba(192,132,252,0.5)]"></i>
+                    <span data-i18n="timeLeftLabel">زمان باقی‌مانده</span>
+                </div>
+                <div class="font-semibold text-slate-100" id="daysLeft">-</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card rounded-2xl p-5 shadow-xl hidden border-r-2 border-r-purple-500/50" id="protoCard">
+        <div class="text-sm text-purple-200/80 font-medium mb-3 flex items-center gap-2">
+            <i class="fas fa-shuffle text-purple-400 drop-shadow-[0_0_5px_rgba(192,132,252,0.5)]"></i>
+            <span data-i18n="protoLabel">ترکیب پروتکل‌ها</span>
+        </div>
+        <div id="protoBars" class="space-y-2"></div>
+    </div>
+
+    <div class="space-y-3 hidden" id="listWrap">
+        <div class="flex items-center justify-between px-1">
+            <h2 class="text-xs font-bold text-blue-300 uppercase tracking-wider flex items-center gap-1">
+                <i class="fas fa-server text-indigo-400"></i>
+                <span data-i18n="configsLabel">کانفیگ‌ها</span> 
+                <span class="mono text-purple-300/70 bg-purple-500/10 px-1.5 rounded" id="countBadge">(0)</span>
+            </h2>
+            <button id="copyAllBtn" class="text-xs text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-500/30 px-3 py-1.5 rounded-lg border border-blue-500/20 transition-all duration-300 flex items-center gap-1.5">
+                <i class="fas fa-copy"></i>
+                <span data-i18n="copyAllLabel">کپی همه</span>
+            </button>
+        </div>
+        <div id="list"></div>
+    </div>
+
+    <p class="text-center text-xs text-slate-400 hidden bg-slate-900/50 p-4 rounded-xl border border-slate-700/50" id="emptyMsg" data-i18n="emptyMsg">کانفیگی پیدا نشد. لینک اشتراک یا محتوا رو بررسی کن.</p>
+
+    <div class="text-center pt-6 pb-2">
+        <p class="text-sm font-medium text-blue-200/90 mb-1" data-i18n="supportText1">کانال ما را در تلگرام دنبال کنید</p>
+        <p class="text-xs text-blue-200/60 mb-4" data-i18n="supportText2">برای رفتن به کانال ما روی دکمه زیر کلیک کنید</p>
+        
+        <a href="https://t.me/kali_connect" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] transition-all duration-300 transform hover:-translate-y-1 group">
+            <i class="fab fa-telegram text-xl group-hover:scale-110 transition-transform"></i>
+            <span class="font-bold text-base tracking-wider" style="font-family: 'JetBrains Mono', monospace;">kali_connect</span>
+        </a>
+    </div>
+
+</div>
+
+<script>
+// ---------- Theme Toggle ----------
+const themeBtn = document.getElementById('themeBtn');
+const themeIcon = document.getElementById('themeIcon');
+
+// اگر قبلا تم ذخیره شده بود
+if(localStorage.getItem('theme') === 'light'){
+    document.body.classList.add('light-mode');
+    themeIcon.classList.replace('fa-sun', 'fa-moon');
+}
+
+themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    
+    if (isLight) {
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'light');
+    } else {
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'dark');
+    }
+    
+    // بازطراحی نمودار بر اساس رنگ‌های تم جدید
+    if(window.__lastUsedBytes) drawUsageChart(window.__lastUsedBytes);
+});
+
+// ---------- Translations & Lang Toggle ----------
+const i18n = {
+    fa: {
+        dir: 'rtl',
+        langBtnText: 'English',
+        statusMsgLoad: 'در حال دریافت اطلاعات اشتراک...',
+        statusMsgErr: 'دریافت اطلاعات ناموفق بود.',
+        statusMsgInv: 'لینک معتبر نیست.',
+        statusMsgOk: 'اطلاعات با موفقیت دریافت شد.',
+        badgeLoad: 'در حال بررسی',
+        badgeErr: 'خطا در دریافت',
+        badgeInv: 'لینک نامعتبر',
+        badgeOk: 'سرویس فعال',
+        usageLabel: 'حجم مصرف شده',
+        renewLabel: 'تمدید بعدی',
+        timeLeftLabel: 'زمان باقی‌مانده',
+        protoLabel: 'ترکیب پروتکل‌ها',
+        configsLabel: 'کانفیگ‌ها',
+        copyAllLabel: 'کپی همه',
+        emptyMsg: 'کانفیگی پیدا نشد. لینک اشتراک رو بررسی کن.',
+        supportText1: 'کانال ما را در تلگرام دنبال کنید',
+        supportText2: 'برای رفتن به کانال ما روی دکمه زیر کلیک کنید',
+        unlimited: 'نامحدود',
+        days: 'روز',
+        of: 'از',
+        usedInf: 'مصرف‌شده (نامحدود)',
+        noUsage: 'بدون مصرف',
+        toastCopy: 'لینک کپی شد',
+        toastCopyAll: 'همه‌ی کانفیگ‌ها کپی شد'
+    },
+    en: {
+        dir: 'ltr',
+        langBtnText: 'فارسی',
+        statusMsgLoad: 'Fetching subscription info...',
+        statusMsgErr: 'Failed to fetch information.',
+        statusMsgInv: 'Invalid link.',
+        statusMsgOk: 'Data received successfully.',
+        badgeLoad: 'Checking',
+        badgeErr: 'Fetch Error',
+        badgeInv: 'Invalid Link',
+        badgeOk: 'Active',
+        usageLabel: 'Data Used',
+        renewLabel: 'Next Renewal',
+        timeLeftLabel: 'Time Left',
+        protoLabel: 'Protocol Mix',
+        configsLabel: 'Configurations',
+        copyAllLabel: 'Copy All',
+        emptyMsg: 'No configs found. Check your subscription link.',
+        supportText1: 'Follow our channel on Telegram',
+        supportText2: 'Click the button below to join our channel',
+        unlimited: 'Unlimited',
+        days: 'Days',
+        of: 'of',
+        usedInf: 'Used (Unlimited)',
+        noUsage: 'No Usage',
+        toastCopy: 'Link Copied',
+        toastCopyAll: 'All configs copied'
+    }
+};
+
+let currentLang = 'fa';
+
+function t(key) {
+    return i18n[currentLang][key] || key;
+}
+
+const htmlTag = document.getElementById('htmlTag');
+const langBtn = document.getElementById('langBtn');
+const langText = document.getElementById('langText');
+
+langBtn.addEventListener('click', () => {
+    currentLang = currentLang === 'fa' ? 'en' : 'fa';
+    
+    // Update HTML Dir
+    htmlTag.setAttribute('dir', i18n[currentLang].dir);
+    langText.textContent = i18n[currentLang].langBtnText;
+    
+    // Update Static Texts
+    document.querySelector('[data-i18n="usageLabel"]').textContent = t('usageLabel');
+    document.querySelector('[data-i18n="renewLabel"]').textContent = t('renewLabel');
+    document.querySelector('[data-i18n="timeLeftLabel"]').textContent = t('timeLeftLabel');
+    document.querySelector('[data-i18n="protoLabel"]').textContent = t('protoLabel');
+    document.querySelector('[data-i18n="configsLabel"]').textContent = t('configsLabel');
+    document.querySelector('[data-i18n="copyAllLabel"]').textContent = t('copyAllLabel');
+    document.querySelector('[data-i18n="emptyMsg"]').textContent = t('emptyMsg');
+    document.querySelector('[data-i18n="supportText1"]').textContent = t('supportText1');
+    document.querySelector('[data-i18n="supportText2"]').textContent = t('supportText2');
+    
+    // Refresh Dynamic Content to apply language
+    if(window.__lastHeaderStr) renderUsageInfo(window.__lastHeaderStr);
+    if(window.__rawSub) renderEntries(window.__rawSub);
+    
+    // Re-trigger status translation based on current badge
+    const badgeText = document.getElementById('statusBadgeText').textContent;
+    if(badgeText.includes('بررسی') || badgeText.includes('Checking')) {
+        setStatus(t('statusMsgLoad'));
+        setBadge('loading', t('badgeLoad'));
+    } else if(badgeText.includes('فعال') || badgeText.includes('Active')) {
+        setStatus(t('statusMsgOk'));
+        setBadge('active', t('badgeOk'));
+    } else if(badgeText.includes('نامعتبر') || badgeText.includes('Invalid')) {
+        setStatus(t('statusMsgInv'));
+        setBadge('error', t('badgeInv'));
+    } else {
+        setStatus(t('statusMsgErr'));
+        setBadge('error', t('badgeErr'));
+    }
+});
+
+
+// ---------- element refs ----------
+const userTitle      = document.getElementById('userTitle');
+const statusMsg      = document.getElementById('statusMsg');
+const statusBadge    = document.getElementById('statusBadge');
+const statusBadgeText= document.getElementById('statusBadgeText');
+const usageCard      = document.getElementById('usageCard');
+const usageFill      = document.getElementById('usageFill');
+const usageHeadline  = document.getElementById('usageHeadline');
+const usageHeadlineSub = document.getElementById('usageHeadlineSub');
+const renewDate      = document.getElementById('renewDate');
+const daysLeft       = document.getElementById('daysLeft');
+const protoCard      = document.getElementById('protoCard');
+const protoBars      = document.getElementById('protoBars');
+const listWrap       = document.getElementById('listWrap');
+const listEl         = document.getElementById('list');
+const countBadge     = document.getElementById('countBadge');
+const emptyMsg       = document.getElementById('emptyMsg');
+const copyAllBtn     = document.getElementById('copyAllBtn');
+
+// ---------- helpers ----------
+function toast(text){
+    const el = document.createElement('div');
+    el.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-blue-600/90 backdrop-blur-md border border-blue-400/50 text-white font-bold px-5 py-3 rounded-2xl shadow-[0_0_20px_rgba(37,99,235,0.4)] text-xs z-50 transition-all";
+    el.innerHTML = '<i class="fas fa-check-circle mx-1"></i> ' + text;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1800);
+}
+
+function setBadge(state, text){
+    const map = {
+        loading: ['bg-slate-500/10','text-slate-400','border-slate-500/20','bg-slate-400',false],
+        active:  ['bg-blue-500/10','text-blue-400','border-blue-500/30','bg-blue-400',true],
+        error:   ['bg-rose-500/10','text-rose-400','border-rose-500/20','bg-rose-400',false],
+    };
+    const [bg,txt,border,dot,pulse] = map[state] || map.loading;
+    statusBadge.className = `inline-flex items-center gap-1.5 mt-3 px-3 py-1 text-xs font-medium ${bg} ${txt} rounded-full border ${border}`;
+    statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${dot} ${pulse ? 'animate-ping' : ''}"></span><span id="statusBadgeText">${text}</span>`;
+}
+
+function setStatus(text){ statusMsg.textContent = text; }
+
+function b64decode(str){
+    str = str.trim().replace(/-/g,'+').replace(/_/g,'/');
+    while(str.length % 4) str += '=';
+    try{ return decodeURIComponent(escape(atob(str))); }
+    catch(e){ try{ return atob(str); }catch(e2){ return ''; } }
+}
+
+function fmtBytes(bytes){
+    if(!isFinite(bytes) || bytes < 0) return '-';
+    const units = ['B','KB','MB','GB','TB'];
+    let i = 0, v = bytes;
+    while(v >= 1024 && i < units.length-1){ v /= 1024; i++; }
+    return v.toFixed(v >= 10 ? 0 : 1) + ' ' + units[i];
+}
+
+const persianDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function toNum(n){ 
+    if(currentLang === 'en') return n;
+    return String(n).replace(/[0-9]/g, d => persianDigits[d]); 
+}
+
+// Gregorian -> Jalali (public-domain algorithm)
+function toJalali(gy, gm, gd){
+    const g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
+    let jy;
+    if (gy<=1600) { jy=0; gy-=621; } else { jy=979; gy-=1600; }
+    const gy2 = (gm>2)? (gy+1) : gy;
+    let days = (365*gy) + Math.floor((gy2+3)/4) - Math.floor((gy2+99)/100) + Math.floor((gy2+399)/400) - 80 + gd + g_d_m[gm-1];
+    jy += 33*Math.floor(days/12053);
+    days %= 12053;
+    jy += 4*Math.floor(days/1461);
+    days %= 1461;
+    if (days > 365) { jy += Math.floor((days-1)/365); days = (days-1)%365; }
+    const jm = (days < 186) ? 1 + Math.floor(days/31) : 7 + Math.floor((days-186)/30);
+    const jd = 1 + ((days<186) ? (days%31) : ((days-186)%30));
+    return [jy, jm, jd];
+}
+
+function fmtDate(unixSeconds){
+    const d = new Date(unixSeconds*1000);
+    if(currentLang === 'en') {
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    }
+    const [jy,jm,jd] = toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+    return toNum(`${jy}/${String(jm).padStart(2,'0')}/${String(jd).padStart(2,'0')}`);
+}
+
+// ---------- Chart Logic ----------
+function drawUsageChart(usedBytes) {
+    window.__lastUsedBytes = usedBytes;
+    const chartContainer = document.getElementById('chartContainer');
+    
+    if (usedBytes <= 0) {
+        chartContainer.style.display = 'none';
+        return;
+    }
+    
+    chartContainer.style.display = 'block';
+    const ctx = document.getElementById('usageChart').getContext('2d');
+    
+    if(window.usageChartInstance) {
+        window.usageChartInstance.destroy();
+    }
+
+    // الگوی شماتیک مصرف برای ۳۰ روز بر اساس حجم کلی
+    const curve = [0.2, 0.3, 0.25, 0.5, 0.8, 0.6, 0.5, 0.9, 1.2, 0.8, 0.6, 0.5, 1.0, 1.5, 1.2, 1.4, 0.9, 0.7, 1.1, 1.8, 2.0, 1.6, 1.3, 1.0, 1.5, 2.2, 2.5, 2.0, 1.5, 2.4];
+    const sum = curve.reduce((a,b)=>a+b, 0);
+    const totalMB = usedBytes / (1024 * 1024);
+    const dataPoints = curve.map(v => (v / sum) * totalMB);
+    const labels = Array.from({length: 30}, (_, i) => toNum(30 - i) + ' ' + t('days'));
+
+    const isLight = document.body.classList.contains('light-mode');
+    
+    // گرادیانت شفاف و جذاب برای زیر نمودار
+    const gradient = ctx.createLinearGradient(0, 0, 0, 140);
+    gradient.addColorStop(0, isLight ? 'rgba(99, 102, 241, 0.3)' : 'rgba(139, 92, 246, 0.4)');
+    gradient.addColorStop(1, isLight ? 'rgba(99, 102, 241, 0.0)' : 'rgba(59, 130, 246, 0.0)');
+
+    const textColor = isLight ? '#64748b' : '#94a3b8';
+    const gridColor = isLight ? 'rgba(99, 102, 241, 0.1)' : 'rgba(100, 150, 255, 0.1)';
+    const lineColor = isLight ? '#6366f1' : '#8b5cf6';
+
+    Chart.defaults.font.family = "'Vazirmatn', 'JetBrains Mono', sans-serif";
+
+    window.usageChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: t('usageLabel'),
+                data: dataPoints,
+                fill: true,
+                backgroundColor: gradient,
+                borderColor: lineColor,
+                borderWidth: 2,
+                tension: 0.4,
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                pointHoverBackgroundColor: '#ffffff',
+                pointHoverBorderColor: lineColor,
+                pointHoverBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: isLight ? 'rgba(255,255,255,0.95)' : 'rgba(15,23,42,0.95)',
+                    titleColor: isLight ? '#0f172a' : '#ffffff',
+                    bodyColor: isLight ? '#334155' : '#cbd5e1',
+                    borderColor: isLight ? 'rgba(99,102,241,0.2)' : 'rgba(139,92,246,0.3)',
+                    borderWidth: 1,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return toNum(context.parsed.y.toFixed(1)) + ' MB';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: { display: false },
+                y: {
+                    display: true,
+                    position: currentLang === 'en' ? 'left' : 'right',
+                    grid: { color: gridColor, drawBorder: false },
+                    border: { display: false },
+                    ticks: {
+                        color: textColor,
+                        maxTicksLimit: 4,
+                        font: { size: 10 },
+                        callback: function(value) { return toNum(value.toFixed(0)) + ' MB'; }
+                    }
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            }
+        }
+    });
+}
+
+// ---------- usage / expiry ----------
+function renderUsageInfo(headerStr){
+    window.__lastHeaderStr = headerStr; // Save for translation refresh
+    if(!headerStr){ usageCard.classList.add('hidden'); return; }
+    const parts = {};
+    headerStr.split(';').forEach(p => {
+        const [k,v] = p.trim().split('=');
+        if(k && v !== undefined) parts[k.trim()] = parseInt(v.trim(), 10);
+    });
+    const used = (parts.upload || 0) + (parts.download || 0);
+    const total = parts.total || 0;
+    const expire = parts.expire || 0;
+
+    usageCard.classList.remove('hidden');
+    if(total > 0){
+        const pct = Math.min(100, (used/total)*100);
+        usageFill.style.width = pct + '%';
+        
+        let colorClass = 'from-blue-500 via-indigo-500 to-purple-500';
+        if(pct > 90) colorClass = 'from-rose-500 to-rose-700';
+        else if(pct > 70) colorClass = 'from-amber-400 to-amber-600';
+        
+        usageFill.className = `h-full rounded-full transition-all duration-700 bg-gradient-to-r shadow-[0_0_10px_rgba(139,92,246,0.6)] ${colorClass}`;
+        
+        usageHeadline.innerHTML = `${fmtBytes(used)} <span class="text-xs text-blue-300/60">${t('of')} ${fmtBytes(total)}</span>`;
+    } else if (used > 0){
+        usageFill.style.width = '100%';
+        usageHeadline.innerHTML = `${fmtBytes(used)} <span class="text-xs text-blue-300/60">${t('usedInf')}</span>`;
+    } else {
+        usageFill.style.width = '0%';
+        usageHeadline.textContent = t('noUsage');
+    }
+
+    // فراخوانی تابع رسم نمودار مصرف
+    drawUsageChart(used);
+
+    if(expire > 0){
+        const now = Math.floor(Date.now()/1000);
+        const days = Math.max(0, Math.ceil((expire - now) / 86400));
+        daysLeft.textContent = toNum(days) + ' ' + t('days');
+        renewDate.textContent = fmtDate(expire);
+    } else {
+        daysLeft.textContent = t('unlimited');
+        renewDate.textContent = t('unlimited');
+    }
+}
+
+// ---------- protocol parsing ----------
+function detectProto(uri){
+    if(uri.startsWith('vless://'))   return {key:'vless', label:'VLESS', icon:'fa-bolt', color:'#818cf8', bg:'bg-indigo-500/10', text:'text-indigo-400'};
+    if(uri.startsWith('vmess://'))   return {key:'vmess', label:'VMESS', icon:'fa-shuffle', color:'#c084fc', bg:'bg-purple-500/10', text:'text-purple-400'};
+    if(uri.startsWith('trojan://')) return {key:'trojan', label:'TROJAN', icon:'fa-mask', color:'#f472b6', bg:'bg-pink-500/10', text:'text-pink-400'};
+    if(uri.startsWith('ss://'))      return {key:'ss', label:'SHADOWSOCKS', icon:'fa-lock', color:'#60a5fa', bg:'bg-blue-500/10', text:'text-blue-400'};
+    if(uri.startsWith('hysteria2://') || uri.startsWith('hy2://')) return {key:'hy2', label:'HYSTERIA2', icon:'fa-cloud', color:'#34d399', bg:'bg-emerald-500/10', text:'text-emerald-400'};
+    if(uri.startsWith('tuic://'))    return {key:'tuic', label:'TUIC', icon:'fa-satellite-dish', color:'#fbbf24', bg:'bg-amber-500/10', text:'text-amber-400'};
+    return {key:'other', label:'UNKNOWN', icon:'fa-link', color:'#94a3b8', bg:'bg-slate-500/10', text:'text-slate-400'};
+}
+
+function parseEntry(uri){
+    const proto = detectProto(uri);
+    let name = proto.label;
+    let subtitle = '';
+    try{
+        if(proto.key === 'vmess'){
+            const json = JSON.parse(b64decode(uri.replace('vmess://','')));
+            name = json.ps || proto.label;
+            subtitle = `${json.add || '-'}:${json.port || '-'} · ${json.net || 'tcp'}`;
+        } else {
+            const hashIdx = uri.indexOf('#');
+            if(hashIdx > -1) name = decodeURIComponent(uri.slice(hashIdx+1)) || proto.label;
+            const body = uri.split('://')[1] || '';
+            const beforeHash = body.split('#')[0];
+            const [userAndHost, queryStr] = beforeHash.split('?');
+            const afterAt = userAndHost.includes('@') ? userAndHost.split('@')[1] : userAndHost;
+            const [host, port] = afterAt.split(':');
+            const qs = new URLSearchParams(queryStr || '');
+            subtitle = `${host || '-'}:${port || '-'} · ${qs.get('type') || 'tcp'}`;
+        }
+    }catch(e){}
+    return {uri, proto, name, subtitle};
+}
+
+// ---------- render ----------
+function renderProtoBreakdown(entries){
+    const counts = {};
+    entries.forEach(e => { counts[e.proto.key] = (counts[e.proto.key]||0) + 1; });
+    const keys = Object.keys(counts);
+    protoBars.innerHTML = '';
+    if(keys.length === 0){ protoCard.classList.add('hidden'); return; }
+    protoCard.classList.remove('hidden');
+    const max = Math.max(...Object.values(counts));
+    keys.forEach(k => {
+        const sample = entries.find(e => e.proto.key === k).proto;
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-3 text-xs';
+        const dirClass = currentLang === 'en' ? 'text-right' : 'text-left';
+        row.innerHTML = `
+            <span class="w-20 flex-shrink-0 font-semibold mono" style="color:${sample.color}">${sample.label}</span>
+            <div class="flex-1 h-1.5 bg-slate-900/60 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full rounded-full shadow-[0_0_8px_${sample.color}]" style="width:${(counts[k]/max*100)}%;background:${sample.color}"></div>
+            </div>
+            <span class="mono text-blue-200/50 w-5 ${dirClass}">${toNum(counts[k])}</span>
+        `;
+        protoBars.appendChild(row);
+    });
+}
+
+function renderEntries(rawText){
+    listEl.innerHTML = '';
+    const lines = rawText.split(/\r?\n/).map(l=>l.trim()).filter(l=>/^[a-z0-9]+:\/\//i.test(l));
+
+    if(lines.length === 0){
+        listWrap.classList.add('hidden');
+        emptyMsg.classList.remove('hidden');
+        setBadge('error', t('badgeErr'));
+        setStatus(t('statusMsgErr'));
+        return;
+    }
+
+    emptyMsg.classList.add('hidden');
+    listWrap.classList.remove('hidden');
+    setStatus(t('statusMsgOk'));
+    setBadge('active', t('badgeOk'));
+
+    const entries = lines.map(parseEntry);
+    countBadge.textContent = `(${toNum(entries.length)})`;
+    renderProtoBreakdown(entries);
+
+    entries.forEach((entry, idx) => {
+        const card = document.createElement('div');
+        card.className = "glass-card rounded-xl p-4 shadow-lg hover:border-blue-500/40 hover:bg-slate-800/40 transition-all duration-300 group";
+        card.innerHTML = `
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-lg ${entry.proto.bg} ${entry.proto.text} flex items-center justify-center flex-shrink-0 border border-[${entry.proto.color}]/20 group-hover:shadow-[0_0_10px_${entry.proto.color}40] transition-shadow">
+                        <i class="fas ${entry.proto.icon} text-lg"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="text-sm font-semibold text-slate-100 truncate">${entry.name}</div>
+                        <div class="text-xs text-blue-200/50 mono truncate mt-0.5">${entry.subtitle}</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                    <button class="qr-toggle w-9 h-9 rounded-xl bg-blue-900/20 hover:bg-blue-600 hover:text-white border border-blue-500/20 flex items-center justify-center text-blue-400 transition-all duration-300">
+                        <i class="fas fa-qrcode"></i>
+                    </button>
+                    <button class="copy-one w-9 h-9 rounded-xl bg-purple-900/20 hover:bg-purple-600 hover:text-white border border-purple-500/20 flex items-center justify-center text-purple-400 transition-all duration-300">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="qr-box justify-center mt-4 pt-4 border-t border-dashed border-blue-500/20" id="qr-${idx}">
+                <div class="p-3 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg" id="qr-canvas-${idx}"></div>
+            </div>
+        `;
+        listEl.appendChild(card);
+
+        card.querySelector('.copy-one').addEventListener('click', () => {
+            navigator.clipboard.writeText(entry.uri).then(() => toast(t('toastCopy')));
+        });
+
+        card.querySelector('.qr-toggle').addEventListener('click', () => {
+            const box = card.querySelector('.qr-box');
+            const showing = box.classList.contains('show');
+            box.classList.toggle('show', !showing);
+            const holder = card.querySelector(`#qr-canvas-${idx}`);
+            if(!showing && holder.childElementCount === 0){
+                new QRCode(holder, {text: entry.uri, width: 168, height: 168, colorDark:'#050b14', colorLight:'#ffffff'});
+            }
+        });
+    });
+}
+
+copyAllBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(window.__rawSub || '').then(() => toast(t('toastCopyAll')));
+});
+
+// ---------- fetch ----------
+async function loadFromServer(idOrUrl){
+    let url = idOrUrl;
+    if(!/^https?:\/\//i.test(idOrUrl)){
+        const cleanId = idOrUrl.replace(/^\/+/, '').replace(/^(sub|rawsub|view)\//,'');
+        url = '/rawsub/' + cleanId;
+    }
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('fetch failed');
+    renderUsageInfo(res.headers.get('subscription-userinfo'));
+    const raw = await res.text();
+    let decoded = raw;
+    if(!/:\/\//.test(raw)){
+        decoded = b64decode(raw);
+    }
+    window.__rawSub = decoded;
+    renderEntries(decoded);
+}
+
+// ---------- init ----------
+(function init(){
+    const params = new URLSearchParams(window.location.search);
+    let presetSub = params.get('sub') || params.get('id');
+    if(!presetSub){
+        const m = window.location.pathname.match(/\/sub\/([^\/?#]+)/);
+        if(m) presetSub = m[1];
+    }
+    if(presetSub){
+        setStatus(t('statusMsgLoad'));
+        setBadge('loading', t('badgeLoad'));
+        loadFromServer(presetSub).catch(() => {
+            setStatus(t('statusMsgErr'));
+            setBadge('error', t('badgeErr'));
+        });
+    } else {
+        setStatus(t('statusMsgInv'));
+        setBadge('error', t('badgeInv'));
+    }
+})();
+</script>
+</body>
+</html>
